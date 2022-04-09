@@ -16,8 +16,7 @@ CHUNK_SIZE = 512 * 1024  # 512KB
 
 def extractDownloadLink(contents):
     for line in contents.splitlines():
-        m = re.search(r'href="((http|https)://download[^"]+)', line)
-        if m:
+        if m := re.search(r'href="((http|https)://download[^"]+)', line):
             return m.groups()[0]
 
 def download(url, output, quiet):
@@ -34,7 +33,7 @@ def download(url, output, quiet):
         url = extractDownloadLink(res.text)
 
         if url is None:
-            print('Permission denied: %s' % url_origin, file=sys.stderr)
+            print(f'Permission denied: {url_origin}', file=sys.stderr)
             print(
                 "Maybe you need to change permission over "
                 "'Anyone with the link'?",
